@@ -21,13 +21,9 @@ class DotPropRead{
 
     public:
         bool loadFile(std::string file);//Loads a file into dynamic memory
-        bool setFile(std::string file);//Sets a specific filename for file-fetching
         std::string find(std::string key);//Returns the value associated with a key (dynamic array)
-        std::string fetch(std::string key);//Returns the value associated with a key (file-fetching)
         int findValueEntries(std::string key);
-        int fetchValueEntries(std::string key);//Finds the number of values within a 
         std::string find(std::string key, int index);//Used for multiple values
-        std::string fetch(std::string key, int index);//Used for multiple values
 };
 
 int main(){
@@ -72,25 +68,6 @@ int DotPropRead::keyIndex(string key){
         }
     }
     return -1;
-}
-
-bool DotPropRead::setFile(string file){
-
-    ifstream checkFile;
-    checkFile.open(file);
-
-    //Returns false if the file cannot be opened
-    if(!checkFile.is_open()){
-
-        return false;
-    }
-
-    //Sets file-name if the file can be opened
-    else{
-
-        filename = file;
-        return true;
-    }
 }
 
 string DotPropRead::find(string key){
