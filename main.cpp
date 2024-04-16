@@ -16,6 +16,8 @@ class DotPropRead{
         bool allocate(int keyNumber);//Allocates dynamic arrays
         int tabulate(std::string file);//Tabulates a file to determine size needed for allocation
         int keyIndex(std::string key);//Returns the index of a specific key within the dynamic array (returns -1 if not found);
+        int findValueEntries(int index);
+        std::string find(int keyIndex, int index);//Used for multiple values
 
     public:
         bool loadFile(std::string file);//Loads a file into dynamic memory
@@ -29,7 +31,8 @@ class DotPropRead{
 };
 
 int main(){
-
+    
+    DotPropRead settings;
 
     return 0;
 }
@@ -53,5 +56,72 @@ bool DotPropRead::allocate(int keyNumber){
         //Allocates new memory
         keys = new string[keyNumber];
         values = new string[keyNumber];
+        return true;
+    }
+}
+
+int DotPropRead::keyIndex(string key){
+
+    /*Searches through the array of Keys.
+    Returns the index of the key, -1 if not found*/
+    for (int i = 0; i < keysRead; i++){
+
+        if(key == keys[i]){
+
+            return i;
+        }
+    }
+    return -1;
+}
+
+bool DotPropRead::setFile(string file){
+
+    ifstream checkFile;
+    checkFile.open(file);
+
+    //Returns false if the file cannot be opened
+    if(!checkFile.is_open()){
+
+        return false;
+    }
+
+    //Sets file-name if the file can be opened
+    else{
+
+        filename = file;
+        return true;
+    }
+}
+
+string DotPropRead::find(string key){
+
+    //Finds initial index of key
+    int index;
+    index = keyIndex(key);
+
+    //keyIndex() returned -1, meaning no key was located
+    if(index == -1){
+
+        return "404";
+    }
+
+    //Finds the number of values associated with key
+    int valueEntries;
+    valueEntries = findValueEntries(index);
+
+    //No value exists for the given key
+    if(valueEntries < 1){
+
+        return "173";
+    }
+    //There is more than one value associated with the key (returns first value by default).
+    if(valueEntries > 1){
+
+        return find(index, 1);
+    }
+    //There is only one value associated with the key. (returns sole value)
+    else{
+
+        return values[index];
     }
 }
