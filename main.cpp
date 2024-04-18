@@ -125,3 +125,11 @@ int DotPropRead::findValueEntries(int index){
     }
     return valueCount;
 }
+
+int DotPropRead::findValueEntries(string key){
+
+    int index;
+    index = keyIndex(key);
+
+    return findValueEntries(index);
+}
