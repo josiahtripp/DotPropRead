@@ -97,8 +97,31 @@ string DotPropRead::find(string key){
         return find(index, 1);
     }
     //There is only one value associated with the key. (returns sole value)
-    else{
+    
+    return values[index];
+}
 
-        return values[index];
+int DotPropRead::findValueEntries(int index){
+    
+    //Determines number of values associated with each item (temp. stores value cluster)
+    string readValues;
+    readValues = values[index];
+
+    int valueCount = 1;
+
+    //Value string has been set to null (no value was found during read)
+    if(readValues[0] == '\0'){
+
+        return 0;
     }
+
+    //values are null delimited. values = nullCharacters + 1
+    for(int i = 0; readValues.length(); i++){
+
+        if (readValues[i] == '\0'){
+
+            valueCount++;
+        }
+    }
+    return valueCount;
 }
